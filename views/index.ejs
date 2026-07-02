@@ -1,0 +1,123 @@
+<%- include("partials/header") %>
+
+<%- include("partials/navbar") %>
+
+<!-- HERO SECTION -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h2>
+            Find Your Perfect Cat
+        </h2>
+
+        <p>
+            Pet Choice helps users discover cats available for adoption.
+            Browse by breed, age, gender, size, and coat to find your
+            perfect companion.
+        </p>
+
+        <a href="/breeds" class="btn">
+
+            Browse Cats
+
+        </a>
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="features">
+
+    <div class="feature-card">
+
+        <h3>🐱 Browse Cats</h3>
+
+        <p>
+            View available cats with detailed information
+            and beautiful photos.
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <h3>🔍 Smart Search</h3>
+
+        <p>
+            Search cats by breed, age,
+            gender, size, or coat.
+        </p>
+
+    </div>
+
+    <div class="feature-card">
+
+        <h3>❤️ Adopt Responsibly</h3>
+
+        <p>
+            Learn about each cat before
+            visiting the adoption page.
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ABOUT -->
+
+<section class="about">
+
+    <h2>
+
+        Why Pet Choice?
+
+    </h2>
+
+    <p>
+
+        Pet Choice helps future pet owners
+        discover adoptable cats using a local
+        JSON dataset. Users can browse,
+        search, and view detailed information
+        about each cat before visiting its
+        adoption profile.
+
+    </p>
+
+</section>
+
+<!-- STATISTICS -->
+
+<section class="stats">
+
+    <div class="stat">
+
+        <h2><%= breeds.length %></h2>
+
+        <p>Cats Available</p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>5+</h2>
+
+        <p>Search Filters</p>
+
+    </div>
+
+    <div class="stat">
+
+        <h2>100%</h2>
+
+        <p>Adoption Ready</p>
+
+    </div>
+
+</section>
+
+<%- include("partials/footer") %>

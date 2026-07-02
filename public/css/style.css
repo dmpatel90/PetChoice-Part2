@@ -1,0 +1,320 @@
+/* ===========================
+   GENERAL
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f5f7fa;
+    color:#333;
+    line-height:1.6;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+header{
+    background:#ff914d;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+header h1{
+    font-size:40px;
+}
+
+header p{
+    margin-top:10px;
+    font-size:18px;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+nav{
+    background:#333;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    padding:15px 20px;
+    transition:.3s;
+}
+
+nav a:hover{
+    background:#ff914d;
+}
+
+/* ===========================
+   HERO
+=========================== */
+
+.hero{
+    background:white;
+    padding:70px 20px;
+    text-align:center;
+}
+
+.hero h2{
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.hero p{
+    max-width:800px;
+    margin:auto;
+    font-size:18px;
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.btn{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 25px;
+    background:#ff914d;
+    color:white;
+    text-decoration:none;
+    border-radius:8px;
+    transition:.3s;
+}
+
+.btn:hover{
+    background:#ff6d1f;
+}
+
+/* ===========================
+   FEATURES
+=========================== */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    padding:40px;
+}
+
+.feature-card{
+    background:white;
+    border-radius:12px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+.feature-card h3{
+    margin-bottom:15px;
+}
+
+/* ===========================
+   ABOUT
+=========================== */
+
+.about{
+    padding:40px;
+}
+
+.about-title{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:35px;
+}
+
+.about-card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+/* ===========================
+   STATS
+=========================== */
+
+.stats{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+    padding:50px;
+}
+
+.stat{
+    background:white;
+    width:220px;
+    padding:30px;
+    text-align:center;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.stat h2{
+    color:#ff914d;
+    font-size:40px;
+}
+
+/* ===========================
+   CAT CARDS
+=========================== */
+
+#catsContainer{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+    gap:30px;
+    margin-top:30px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.card-content{
+    padding:20px;
+}
+
+.card-content h3{
+    margin-bottom:15px;
+    color:#ff914d;
+}
+
+.card-content p{
+    margin-bottom:10px;
+}
+
+/* ===========================
+   DETAILS PAGE
+=========================== */
+
+.details-card{
+    max-width:900px;
+    margin:auto;
+}
+
+.details-card img{
+    width:100%;
+    border-radius:12px;
+    margin-bottom:20px;
+}
+
+/* ===========================
+   TABLE
+=========================== */
+
+.breed-table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.breed-table th,
+.breed-table td{
+    border:1px solid #ddd;
+    padding:15px;
+}
+
+.breed-table th{
+    background:#ff914d;
+    color:white;
+    width:220px;
+}
+
+/* ===========================
+   SEARCH
+=========================== */
+
+.controls{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin:30px 0;
+}
+
+.controls input{
+    width:350px;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+.controls button{
+    background:#ff914d;
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.controls button:hover{
+    background:#ff6d1f;
+}
+
+/* ===========================
+   FOOTER
+=========================== */
+
+footer{
+    background:#333;
+    color:white;
+    text-align:center;
+    padding:25px;
+    margin-top:50px;
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.hero h2{
+    font-size:30px;
+}
+
+header h1{
+    font-size:30px;
+}
+
+.about{
+    padding:20px;
+}
+
+.stats{
+    flex-direction:column;
+    align-items:center;
+}
+
+.controls input{
+    width:100%;
+}
+
+}
