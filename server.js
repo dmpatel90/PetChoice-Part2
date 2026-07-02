@@ -109,6 +109,38 @@ app.get("/breeds/:id", (req, res) => {
 });
 
 /* ==========================================
+   API SEARCH
+========================================== */
+
+app.get("/api/search", (req, res) => {
+
+    const keyword = (req.query.keyword || "").trim().toLowerCase();
+
+    if (!keyword) {
+
+        return res.status(400).json({
+
+            message: "Keyword is required."
+
+        });
+
+    }
+
+    const results = breeds.filter(breed =>
+
+        breed.name.toLowerCase().includes(keyword)
+
+        ||
+
+        breed.temperament.toLowerCase().includes(keyword)
+
+    );
+
+    res.json(results);
+
+});
+
+/* ==========================================
    SEARCH
 ========================================== */
 
