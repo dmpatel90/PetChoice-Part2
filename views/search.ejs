@@ -1,125 +1,78 @@
-<%- include("partials/header") %>
-
-<%- include("partials/navbar") %>
-
-<section class="about">
-
-<h1 class="about-title">
-
-Search Cat Breeds
-
-</h1>
-
 <form action="/search" method="POST" class="controls">
 
-<input
+    <input
+        type="text"
+        name="keyword"
+        placeholder="Search by breed or temperament..."
+        value="<%= keyword %>">
 
-type="text"
+    <!-- Origin Filter -->
+    <select name="origin">
 
-name="keyword"
+        <option value="">All Origins</option>
 
-placeholder="Search breed, origin or temperament..."
+        <% origins.forEach(item => { %>
 
-value="<%= keyword %>"
+            <option
+                value="<%= item %>"
+                <%= item === origin ? "selected" : "" %>>
 
-required>
+                <%= item %>
 
-<button type="submit">
+            </option>
 
-Search
+        <% }) %>
 
-</button>
+    </select>
+
+    <!-- Coat Type Filter -->
+    <select name="coatType">
+
+        <option value="">All Coat Types</option>
+
+        <% coatTypes.forEach(item => { %>
+
+            <option
+                value="<%= item %>"
+                <%= item === coatType ? "selected" : "" %>>
+
+                <%= item %>
+
+            </option>
+
+        <% }) %>
+
+    </select>
+
+    <!-- Grooming Level Filter -->
+    <select name="grooming">
+
+        <option value="">All Grooming Levels</option>
+
+        <% groomingLevels.forEach(item => { %>
+
+            <option
+                value="<%= item %>"
+                <%= item === grooming ? "selected" : "" %>>
+
+                <%= item %>
+
+            </option>
+
+        <% }) %>
+
+    </select>
+
+    <button type="submit">
+
+        Search
+
+    </button>
+
+    <a href="/search" class="btn">
+
+        Reset
+
+    </a>
 
 </form>
-
-<br>
-
-<% if(results.length === 0 && keyword){ %>
-
-<h2>
-
-No results found.
-
-</h2>
-
-<% } %>
-
-<div id="catsContainer">
-
-<% results.forEach(breed=>{ %>
-
-<div class="card">
-
-<img
-
-src="<%= breed.image_url %>"
-
-alt="<%= breed.name %>">
-
-<div class="card-content">
-
-<h3>
-
-<%= breed.name %>
-
-</h3>
-
-<p>
-
-<strong>Origin:</strong>
-
-<%= breed.origin %>
-
-</p>
-
-<p>
-
-<strong>Life Span:</strong>
-
-<%= breed.details.lifespan %>
-
-</p>
-
-<p>
-
-<strong>Weight:</strong>
-
-<%= breed.details.weight %>
-
-</p>
-
-<p>
-
-<strong>Coat:</strong>
-
-<%= breed.details.coatType %>
-
-</p>
-
-<p>
-
-<%= breed.description %>
-
-</p>
-
-<a
-
-href="/breeds/<%= breed.id %>"
-
-class="btn">
-
-View Details
-
-</a>
-
-</div>
-
-</div>
-
-<% }) %>
-
-</div>
-
-</section>
-
-<%- include("partials/footer") %>
