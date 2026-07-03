@@ -3,7 +3,7 @@
 WEB700 Project Part 2
 
 Team Members
-Devkumar Manishkumar Patel (Student ID: 129281259)
+Devkumar Manishkumar Patel 
 Ebuka Precious Akaegbusi
 Project Description
 
@@ -145,9 +145,6 @@ User reviews and ratings
 Multiple pet categories
 Author
 
-Devkumar Manishkumar Patel
-
-Student ID: 129281259
 
 Seneca Polytechnic
 

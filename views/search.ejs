@@ -4,171 +4,121 @@
 
 <section class="about">
 
-    <h1 class="about-title">
-        🔍 Search Cat Breeds
-    </h1>
+<h1 class="about-title">
 
-    <p style="text-align:center; margin-bottom:30px;">
-        Search cat breeds using the filters below.
-    </p>
+Search Cat Breeds
 
-    <form action="/search" method="POST" class="controls">
+</h1>
 
-        <input
-            type="text"
-            name="keyword"
-            placeholder="Search by breed or temperament..."
-            value="<%= keyword %>">
+<form action="/search" method="POST" class="controls">
 
-        <select name="origin">
+<input
 
-            <option value="">All Origins</option>
+type="text"
 
-            <% origins.forEach(item => { %>
+name="keyword"
 
-                <option
-                    value="<%= item %>"
-                    <%= item === origin ? "selected" : "" %>>
+placeholder="Search breed, origin or temperament..."
 
-                    <%= item %>
+value="<%= keyword %>"
 
-                </option>
+required>
 
-            <% }) %>
+<button type="submit">
 
-        </select>
+Search
 
-        <select name="coatType">
+</button>
 
-            <option value="">All Coat Types</option>
+</form>
 
-            <% coatTypes.forEach(item => { %>
+<br>
 
-                <option
-                    value="<%= item %>"
-                    <%= item === coatType ? "selected" : "" %>>
+<% if(results.length === 0 && keyword){ %>
 
-                    <%= item %>
+<h2>
 
-                </option>
+No results found.
 
-            <% }) %>
+</h2>
 
-        </select>
+<% } %>
 
-        <select name="grooming">
+<div id="catsContainer">
 
-            <option value="">All Grooming Levels</option>
+<% results.forEach(breed=>{ %>
 
-            <% groomingLevels.forEach(item => { %>
+<div class="card">
 
-                <option
-                    value="<%= item %>"
-                    <%= item === grooming ? "selected" : "" %>>
+<img
 
-                    <%= item %>
+src="<%= breed.image_url %>"
 
-                </option>
+alt="<%= breed.name %>">
 
-            <% }) %>
+<div class="card-content">
 
-        </select>
+<h3>
 
-        <button type="submit">
+<%= breed.name %>
 
-            Search
+</h3>
 
-        </button>
+<p>
 
-        <a href="/search" class="btn">
+<strong>Origin:</strong>
 
-            Reset
+<%= breed.origin %>
 
-        </a>
+</p>
 
-    </form>
+<p>
 
-    <br>
+<strong>Life Span:</strong>
 
-    <% if(results.length > 0){ %>
+<%= breed.details.lifespan %>
 
-        <h3 style="text-align:center; margin-bottom:20px;">
+</p>
 
-            <%= results.length %> breed(s) found
+<p>
 
-        </h3>
+<strong>Weight:</strong>
 
-        <div id="catsContainer">
+<%= breed.details.weight %>
 
-            <% results.forEach(breed => { %>
+</p>
 
-                <div class="card">
+<p>
 
-                    <img
-                        src="<%= breed.image_url %>"
-                        alt="<%= breed.name %>">
+<strong>Coat:</strong>
 
-                    <div class="card-content">
+<%= breed.details.coatType %>
 
-                        <h3><%= breed.name %></h3>
+</p>
 
-                        <p>
+<p>
 
-                            <strong>Origin:</strong>
+<%= breed.description %>
 
-                            <%= breed.origin %>
+</p>
 
-                        </p>
+<a
 
-                        <p>
+href="/breeds/<%= breed.id %>"
 
-                            <strong>Life Span:</strong>
+class="btn">
 
-                            <%= breed.details.lifespan %>
+View Details
 
-                        </p>
+</a>
 
-                        <p>
+</div>
 
-                            <strong>Coat:</strong>
+</div>
 
-                            <%= breed.details.coatType %>
+<% }) %>
 
-                        </p>
-
-                        <p>
-
-                            <strong>Temperament:</strong>
-
-                            <%= breed.temperament %>
-
-                        </p>
-
-                        <a
-                            href="/breeds/<%= breed.id %>"
-                            class="btn">
-
-                            View Details
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-            <% }) %>
-
-        </div>
-
-    <% } else if(keyword || origin || coatType || grooming){ %>
-
-        <h2 style="text-align:center; color:#ff914d;">
-
-            No breeds found.
-
-        </h2>
-
-    <% } %>
+</div>
 
 </section>
 
