@@ -2,123 +2,199 @@
 
 <%- include("partials/navbar") %>
 
-<section class="about">
+<section class="search-section">
 
-<h1 class="about-title">
+    <h1 class="about-title">
 
-Search Cat Breeds
+        🔍 Search Cat Breeds
 
-</h1>
+    </h1>
 
-<form action="/search" method="POST" class="controls">
+    <form action="/search" method="POST" class="controls">
 
-<input
+        <input
+            type="text"
+            name="keyword"
+            placeholder="Search breed, origin or temperament..."
+            value="<%= keyword %>">
 
-type="text"
+        <!-- Origin -->
 
-name="keyword"
+        <select name="origin">
 
-placeholder="Search breed, origin or temperament..."
+            <option value="">All Origins</option>
 
-value="<%= keyword %>"
+            <% origins.forEach(item => { %>
 
-required>
+                <option
+                    value="<%= item %>"
+                    <%= item === origin ? "selected" : "" %>>
 
-<button type="submit">
+                    <%= item %>
 
-Search
+                </option>
 
-</button>
+            <% }) %>
 
-</form>
+        </select>
 
-<br>
+        <!-- Coat -->
 
-<% if(results.length === 0 && keyword){ %>
+        <select name="coatType">
 
-<h2>
+            <option value="">All Coat Types</option>
 
-No results found.
+            <% coatTypes.forEach(item => { %>
 
-</h2>
+                <option
+                    value="<%= item %>"
+                    <%= item === coatType ? "selected" : "" %>>
 
-<% } %>
+                    <%= item %>
 
-<div id="catsContainer">
+                </option>
 
-<% results.forEach(breed=>{ %>
+            <% }) %>
 
-<div class="card">
+        </select>
 
-<img
+        <!-- Grooming -->
 
-src="<%= breed.image_url %>"
+        <select name="grooming">
 
-alt="<%= breed.name %>">
+            <option value="">All Grooming Levels</option>
 
-<div class="card-content">
+            <% groomingLevels.forEach(item => { %>
 
-<h3>
+                <option
+                    value="<%= item %>"
+                    <%= item === grooming ? "selected" : "" %>>
 
-<%= breed.name %>
+                    <%= item %>
 
-</h3>
+                </option>
 
-<p>
+            <% }) %>
 
-<strong>Origin:</strong>
+        </select>
 
-<%= breed.origin %>
+        <button type="submit">
 
-</p>
+            Search
 
-<p>
+        </button>
 
-<strong>Life Span:</strong>
+        <a href="/search" class="btn">
 
-<%= breed.details.lifespan %>
+            Reset
 
-</p>
+        </a>
 
-<p>
+    </form>
 
-<strong>Weight:</strong>
+    <% if(error){ %>
 
-<%= breed.details.weight %>
+        <div class="no-results">
 
-</p>
+            <%= error %>
 
-<p>
+        </div>
 
-<strong>Coat:</strong>
+    <% } %>
 
-<%= breed.details.coatType %>
+    <% if(results.length > 0){ %>
 
-</p>
+        <h3 class="search-results">
 
-<p>
+            <%= results.length %> breed(s) found
 
-<%= breed.description %>
+        </h3>
 
-</p>
+    <% } %>
 
-<a
+    <% if(results.length === 0 && keyword){ %>
 
-href="/breeds/<%= breed.id %>"
+        <div class="no-results">
 
-class="btn">
+            No breeds found.
 
-View Details
+        </div>
 
-</a>
+    <% } %>
 
-</div>
+    <div id="catsContainer">
 
-</div>
+        <% results.forEach(breed => { %>
 
-<% }) %>
+            <div class="card">
 
-</div>
+                <img
+                    src="<%= breed.image_url %>"
+                    alt="<%= breed.name %>">
+
+                <div class="card-content">
+
+                    <h3>
+
+                        <%= breed.name %>
+
+                    </h3>
+
+                    <p>
+
+                        <strong>Origin:</strong>
+
+                        <%= breed.origin %>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Life Span:</strong>
+
+                        <%= breed.details.lifespan %>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Weight:</strong>
+
+                        <%= breed.details.weight %>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Coat Type:</strong>
+
+                        <%= breed.details.coatType %>
+
+                    </p>
+
+                    <p>
+
+                        <strong>Temperament:</strong>
+
+                        <%= breed.temperament %>
+
+                    </p>
+
+                    <a
+                        href="/breeds/<%= breed.id %>"
+                        class="btn">
+
+                        View Details
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        <% }) %>
+
+    </div>
 
 </section>
 
