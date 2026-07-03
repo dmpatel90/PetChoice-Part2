@@ -19,6 +19,12 @@ const breeds = JSON.parse(
 );
 
 /* ==========================================
+   SORT BREEDS (A-Z)
+========================================== */
+
+breeds.sort((a, b) => a.name.localeCompare(b.name));
+
+/* ==========================================
    APP CONFIGURATION
 ========================================== */
 
@@ -75,7 +81,7 @@ app.get("/breeds", (req, res) => {
 });
 
 /* ==========================================
-   BREED DETAILS
+   SINGLE BREED
 ========================================== */
 
 app.get("/breeds/:id", (req, res) => {
@@ -138,7 +144,9 @@ app.get("/search", (req, res) => {
 
         coatTypes,
 
-        groomingLevels
+        groomingLevels,
+
+        error: ""
 
     });
 
@@ -163,6 +171,46 @@ app.post("/search", (req, res) => {
     const coatTypes = [...new Set(breeds.map(b => b.details.coatType))].sort();
 
     const groomingLevels = [...new Set(breeds.map(b => b.details.groomingLevel))].sort();
+
+    /* Empty Search Validation */
+
+    if (
+
+        keyword === "" &&
+
+        origin === "" &&
+
+        coatType === "" &&
+
+        grooming === ""
+
+    ) {
+
+        return res.render("search", {
+
+            title: "Search Cat Breeds",
+
+            keyword: "",
+
+            origin: "",
+
+            coatType: "",
+
+            grooming: "",
+
+            results: [],
+
+            origins,
+
+            coatTypes,
+
+            groomingLevels,
+
+            error: "Please enter a keyword or select at least one filter."
+
+        });
+
+    }
 
     const results = breeds.filter(breed => {
 
@@ -228,100 +276,10 @@ app.post("/search", (req, res) => {
 
         coatTypes,
 
-        groomingLevels
+        groomingLevels,
+
+        error: ""
 
     });
-
-});
-
-/* ==========================================
-   API - ALL BREEDS
-========================================== */
-
-app.get("/api/breeds", (req, res) => {
-
-    res.json(breeds);
-
-});
-
-/* ==========================================
-   API - SINGLE BREED
-========================================== */
-
-app.get("/api/breeds/:id", (req, res) => {
-
-    const breed = breeds.find(
-
-        breed => breed.id === req.params.id
-
-    );
-
-    if (!breed) {
-
-        return res.status(404).json({
-
-            message: "Breed not found"
-
-        });
-
-    }
-
-    res.json(breed);
-
-});
-
-/* ==========================================
-   API SEARCH
-========================================== */
-
-app.get("/api/search", (req, res) => {
-
-    const keyword = (req.query.keyword || "").trim().toLowerCase();
-
-    if (!keyword) {
-
-        return res.status(400).json({
-
-            message: "Keyword is required."
-
-        });
-
-    }
-
-    const results = breeds.filter(breed =>
-
-        breed.name.toLowerCase().includes(keyword) ||
-
-        breed.temperament.toLowerCase().includes(keyword)
-
-    );
-
-    res.json(results);
-
-});
-
-/* ==========================================
-   404 PAGE
-========================================== */
-
-app.use((req, res) => {
-
-    res.status(404).render("error", {
-
-        title: "404",
-
-        message: "Page Not Found"
-
-    });
-
-});
-
-/* ==========================================
-   START SERVER
-========================================== */
-
-app.listen(PORT, () => {
-
-    console.log(`Server running at http://localhost:${PORT}`);
 
 });
