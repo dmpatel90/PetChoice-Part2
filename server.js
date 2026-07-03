@@ -283,3 +283,100 @@ app.post("/search", (req, res) => {
     });
 
 });
+/* ==========================================
+   API - ALL BREEDS
+========================================== */
+
+app.get("/api/breeds", (req, res) => {
+
+    res.json(breeds);
+
+});
+
+/* ==========================================
+   API - SINGLE BREED
+========================================== */
+
+app.get("/api/breeds/:id", (req, res) => {
+
+    const breed = breeds.find(
+
+        breed => breed.id === req.params.id
+
+    );
+
+    if (!breed) {
+
+        return res.status(404).json({
+
+            message: "Breed not found"
+
+        });
+
+    }
+
+    res.json(breed);
+
+});
+
+/* ==========================================
+   API SEARCH
+========================================== */
+
+app.get("/api/search", (req, res) => {
+
+    const keyword = (req.query.keyword || "").trim().toLowerCase();
+
+    if (!keyword) {
+
+        return res.status(400).json({
+
+            message: "Keyword is required."
+
+        });
+
+    }
+
+    const results = breeds.filter(breed =>
+
+        breed.name.toLowerCase().includes(keyword) ||
+
+        breed.origin.toLowerCase().includes(keyword) ||
+
+        breed.temperament.toLowerCase().includes(keyword) ||
+
+        breed.details.coatType.toLowerCase().includes(keyword) ||
+
+        breed.tags.join(" ").toLowerCase().includes(keyword)
+
+    );
+
+    res.json(results);
+
+});
+
+/* ==========================================
+   404 PAGE
+========================================== */
+
+app.use((req, res) => {
+
+    res.status(404).render("error", {
+
+        title: "404",
+
+        message: "Page Not Found"
+
+    });
+
+});
+
+/* ==========================================
+   START SERVER
+========================================== */
+
+app.listen(PORT, () => {
+
+    console.log(`Server running at http://localhost:${PORT}`);
+
+});
