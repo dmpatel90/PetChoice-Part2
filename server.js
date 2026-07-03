@@ -19,6 +19,12 @@ const breeds = JSON.parse(
 );
 
 /* ==========================================
+   SORT BREEDS (A-Z)
+========================================== */
+
+breeds.sort((a, b) => a.name.localeCompare(b.name));
+
+/* ==========================================
    APP CONFIGURATION
 ========================================== */
 
@@ -52,21 +58,21 @@ app.get("/about", (req, res) => {
 
     res.render("about", {
 
-        title: "About Pet Choice"
+        title: "About Cats"
 
     });
 
 });
 
 /* ==========================================
-   ALL CATS
+   ALL BREEDS
 ========================================== */
 
 app.get("/breeds", (req, res) => {
 
     res.render("breeds", {
 
-        title: "Browse Cats",
+        title: "Browse Cat Breeds",
 
         breeds
 
@@ -75,14 +81,14 @@ app.get("/breeds", (req, res) => {
 });
 
 /* ==========================================
-   SINGLE CAT
+   SINGLE BREED
 ========================================== */
 
 app.get("/breeds/:id", (req, res) => {
 
-    const breed = breeds.find(cat =>
+    const breed = breeds.find(
 
-        String(cat.id) === req.params.id
+        breed => breed.id === req.params.id
 
     );
 
@@ -90,9 +96,9 @@ app.get("/breeds/:id", (req, res) => {
 
         return res.status(404).render("error", {
 
-            title: "Cat Not Found",
+            title: "Breed Not Found",
 
-            message: "The requested cat could not be found."
+            message: "The requested breed could not be found."
 
         });
 
@@ -100,7 +106,7 @@ app.get("/breeds/:id", (req, res) => {
 
     res.render("breed", {
 
-        title: breed.breed,
+        title: breed.name,
 
         breed
 
@@ -109,62 +115,176 @@ app.get("/breeds/:id", (req, res) => {
 });
 
 /* ==========================================
-   SEARCH
+   SEARCH PAGE
 ========================================== */
 
 app.get("/search", (req, res) => {
 
+    const origins = [...new Set(breeds.map(b => b.origin))].sort();
+
+    const coatTypes = [...new Set(breeds.map(b => b.details.coatType))].sort();
+
+    const groomingLevels = [...new Set(breeds.map(b => b.details.groomingLevel))].sort();
+
     res.render("search", {
 
-        title: "Search Cats",
+        title: "Search Cat Breeds",
 
         keyword: "",
 
-        results: []
+        origin: "",
+
+        coatType: "",
+
+        grooming: "",
+
+        results: [],
+
+        origins,
+
+        coatTypes,
+
+        groomingLevels,
+
+        error: ""
 
     });
 
 });
 
+/* ==========================================
+   SEARCH RESULTS
+========================================== */
+
 app.post("/search", (req, res) => {
 
-    const keyword = req.body.keyword.toLowerCase();
+    const keyword = (req.body.keyword || "").trim().toLowerCase();
 
-    const results = breeds.filter(breed =>
+    const origin = req.body.origin || "";
 
-        breed.name.toLowerCase().includes(keyword)
+    const coatType = req.body.coatType || "";
 
-        ||
+    const grooming = req.body.grooming || "";
 
-        breed.origin.toLowerCase().includes(keyword)
+    const origins = [...new Set(breeds.map(b => b.origin))].sort();
 
-        ||
+    const coatTypes = [...new Set(breeds.map(b => b.details.coatType))].sort();
 
-        breed.temperament.toLowerCase().includes(keyword)
+    const groomingLevels = [...new Set(breeds.map(b => b.details.groomingLevel))].sort();
 
-        ||
+    /* Empty Search Validation */
 
-        breed.details.coatType.toLowerCase().includes(keyword)
+    if (
 
-        ||
+        keyword === "" &&
 
-        breed.tags.join(" ").toLowerCase().includes(keyword)
+        origin === "" &&
 
-    );
+        coatType === "" &&
+
+        grooming === ""
+
+    ) {
+
+        return res.render("search", {
+
+            title: "Search Cat Breeds",
+
+            keyword: "",
+
+            origin: "",
+
+            coatType: "",
+
+            grooming: "",
+
+            results: [],
+
+            origins,
+
+            coatTypes,
+
+            groomingLevels,
+
+            error: "Please enter a keyword or select at least one filter."
+
+        });
+
+    }
+
+    const results = breeds.filter(breed => {
+
+        const matchKeyword =
+
+            keyword === "" ||
+
+            breed.name.toLowerCase().includes(keyword) ||
+
+            breed.origin.toLowerCase().includes(keyword) ||
+
+            breed.temperament.toLowerCase().includes(keyword) ||
+
+            breed.tags.join(" ").toLowerCase().includes(keyword);
+
+        const matchOrigin =
+
+            origin === "" ||
+
+            breed.origin === origin;
+
+        const matchCoat =
+
+            coatType === "" ||
+
+            breed.details.coatType === coatType;
+
+        const matchGrooming =
+
+            grooming === "" ||
+
+            breed.details.groomingLevel === grooming;
+
+        return (
+
+            matchKeyword &&
+
+            matchOrigin &&
+
+            matchCoat &&
+
+            matchGrooming
+
+        );
+
+    });
 
     res.render("search", {
 
-        title: "Search",
+        title: "Search Cat Breeds",
 
         keyword,
 
-        results
+        origin,
+
+        coatType,
+
+        grooming,
+
+        results,
+
+        origins,
+
+        coatTypes,
+
+        groomingLevels,
+
+        error: ""
 
     });
 
 });
 /* ==========================================
-   API
+   API - ALL BREEDS
 ========================================== */
 
 app.get("/api/breeds", (req, res) => {
@@ -173,11 +293,15 @@ app.get("/api/breeds", (req, res) => {
 
 });
 
+/* ==========================================
+   API - SINGLE BREED
+========================================== */
+
 app.get("/api/breeds/:id", (req, res) => {
 
-    const breed = breeds.find(cat =>
+    const breed = breeds.find(
 
-        String(cat.id) === req.params.id
+        breed => breed.id === req.params.id
 
     );
 
@@ -185,7 +309,7 @@ app.get("/api/breeds/:id", (req, res) => {
 
         return res.status(404).json({
 
-            message: "Cat not found"
+            message: "Breed not found"
 
         });
 
@@ -196,7 +320,43 @@ app.get("/api/breeds/:id", (req, res) => {
 });
 
 /* ==========================================
-   404
+   API SEARCH
+========================================== */
+
+app.get("/api/search", (req, res) => {
+
+    const keyword = (req.query.keyword || "").trim().toLowerCase();
+
+    if (!keyword) {
+
+        return res.status(400).json({
+
+            message: "Keyword is required."
+
+        });
+
+    }
+
+    const results = breeds.filter(breed =>
+
+        breed.name.toLowerCase().includes(keyword) ||
+
+        breed.origin.toLowerCase().includes(keyword) ||
+
+        breed.temperament.toLowerCase().includes(keyword) ||
+
+        breed.details.coatType.toLowerCase().includes(keyword) ||
+
+        breed.tags.join(" ").toLowerCase().includes(keyword)
+
+    );
+
+    res.json(results);
+
+});
+
+/* ==========================================
+   404 PAGE
 ========================================== */
 
 app.use((req, res) => {
@@ -212,7 +372,7 @@ app.use((req, res) => {
 });
 
 /* ==========================================
-   SERVER
+   START SERVER
 ========================================== */
 
 app.listen(PORT, () => {
